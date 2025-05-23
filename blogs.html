@@ -1,0 +1,474 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>All Blogs</title>
+    <script src="https://unpkg.com/@supabase/supabase-js@2"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            background: linear-gradient(135deg, #f0f9ff 0%, #dbeafe 100%);
+            min-height: 100vh;
+            line-height: 1.6;
+            color: #333;
+        }
+
+        body {
+          /* Set the background image with relative path */
+          background-image: url('photos/main.jpg');
+        
+          /* Control how the background image behaves */
+          background-size: cover;       /* Cover the entire viewport */
+          background-position: center;  /* Center the image */
+          background-repeat: no-repeat; /* Don't repeat the image */
+        
+          /* Fix the background in place when scrolling (optional) */
+          background-attachment: fixed;
+        }
+        
+        header {
+            background: linear-gradient(135deg, #feb224ae 0%, #ff9e27d3 100%);
+            color: white;
+            padding: 30px 0;
+            text-align: center;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            position: relative;
+            border-radius: 15px;
+            margin-bottom: 30px;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        
+        h1 {
+            color: white;
+            margin: 0;
+            font-size: 2.5rem;
+            font-weight: 700;
+        }
+        
+        .home-btn {
+            margin-top: 15px;
+            padding: 8px 16px;
+            background: transparent;
+            color: white;
+            text-decoration: none;
+            border: 2px solid white;
+            border-radius: 25px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            font-size: 0.9rem;
+        }
+        
+        .home-btn:hover {
+            background: rgba(255, 255, 255, 0.2);
+            transform: translateY(-2px);
+        }
+        
+        .blog-posts {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 30px;
+            justify-content: center;
+        }
+        
+        .blog-post {
+            border: 1px solid #ddd;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            background: white;
+            width: 100%;
+            max-width: calc(65% - 150px);
+        }
+        
+        .blog-header {
+            padding: 20px;
+            border-bottom: 1px solid #eee;
+            text-align: center;
+        }
+        
+        .blog-title {
+            font-size: 24px;
+            font-weight: bold;
+            margin: 0 0 10px 0;
+            color: #ffb700;
+        }
+        
+        .blog-date {
+            color: #888;
+            font-size: 14px;
+        }
+        
+        .blog-content {
+            padding: 20px;
+        }
+        
+        .blog-caption {
+            margin-bottom: 20px;
+            line-height: 1.6;
+            font-weight: 500;
+        }
+        
+        .blog-gallery {
+            position: relative;
+            width: 100%;
+            overflow: hidden;
+            border-radius: 8px;
+            margin-bottom: 20px;
+        }
+        
+        .gallery-container {
+            display: flex;
+            transition: transform 0.3s ease-in-out;
+        }
+        
+        .gallery-image {
+            min-width: 100%;
+            max-height: 500px;
+            object-fit: contain;
+            background-color: #f8f8f8;
+        }
+        
+        .gallery-nav {
+            position: absolute;
+            top: 50%;
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            transform: translateY(-50%);
+            padding: 0 10px;
+            box-sizing: border-box;
+        }
+        
+        .gallery-nav button {
+            background-color: rgba(59, 130, 246, 0.7);
+            color: white;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            border: none;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            font-size: 20px;
+            transition: all 0.3s ease;
+        }
+        
+        .gallery-nav button:hover {
+            background-color: rgba(59, 130, 246, 0.9);
+        }
+        
+        .gallery-nav button:disabled {
+            opacity: 0.3;
+            cursor: not-allowed;
+        }
+        
+        .gallery-indicators {
+            display: flex;
+            justify-content: center;
+            gap: 8px;
+            margin-top: 10px;
+        }
+        
+        .indicator {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background-color: #ddd;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+        
+        .indicator.active {
+            background-color: #3b82f6;
+        }
+        
+        .no-blogs {
+            text-align: center;
+            padding: 50px;
+            color: #666;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            width: 100%;
+        }
+        
+        @media (max-width: 768px) {
+            .blog-post {
+                max-width: 100%;
+            }
+            
+            .blog-title {
+                font-size: 20px;
+            }
+            
+            .gallery-image {
+                max-height: 300px;
+            }
+            
+            header {
+                padding: 20px 0 25px 0;
+            }
+            
+            h1 {
+                font-size: 2rem;
+            }
+            
+            .home-btn {
+                padding: 6px 12px;
+                font-size: 0.8rem;
+                margin-top: 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>All Blogs</h1>
+        <a href="index.html" class="home-btn">Go Home</a>
+    </header>
+    
+    <div id="blogPosts" class="blog-posts">
+        <!-- Blog posts will be loaded here -->
+        <div class="no-blogs">Loading blogs...</div>
+    </div>
+
+    <script>
+        // Initialize Supabase client
+        const supabaseUrl = "https://mxzvrpvgnlgarzvzgtjm.supabase.co";
+        const supabaseKey = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im14enZycHZnbmxnYXJ6dnpndGptIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDY5ODE2MTEsImV4cCI6MjA2MjU1NzYxMX0.N4Mx9kgvDBLlyCX0bPpQgSCGVfrN9g7i5ymj9wGYV4A";
+        const supabaseClient = supabase.createClient(supabaseUrl, supabaseKey);
+        
+        // Check if a specific blog is requested
+        const urlParams = new URLSearchParams(window.location.search);
+        const requestedBlogId = urlParams.get('blog');
+        
+        // Load blogs when page loads
+        document.addEventListener('DOMContentLoaded', loadBlogs);
+        
+        async function loadBlogs() {
+            try {
+                // Get all blog posts
+                const { data, error } = await supabaseClient
+                    .from('image_gallery')
+                    .select('*')
+                    .order('uploaded_at', { ascending: false });
+                
+                if (error) throw error;
+                
+                // Group images by blog_id
+                const blogGroups = {};
+                data.forEach(item => {
+                    if (!blogGroups[item.blog_id]) {
+                        blogGroups[item.blog_id] = {
+                            id: item.blog_id,
+                            title: item.title,
+                            caption: item.caption,
+                            images: [],
+                            uploaded_at: item.uploaded_at
+                        };
+                    }
+                    
+                    blogGroups[item.blog_id].images.push({
+                        url: item.url,
+                        file_path: item.file_path,
+                        id: item.id
+                    });
+                });
+                
+                // Convert to array and sort by date (newest first)
+                const blogs = Object.values(blogGroups).sort((a, b) => 
+                    new Date(b.uploaded_at) - new Date(a.uploaded_at)
+                );
+                
+                renderBlogs(blogs);
+                
+                // If a specific blog is requested, scroll to it
+                if (requestedBlogId) {
+                    const blogElement = document.getElementById(`blog-${requestedBlogId}`);
+                    if (blogElement) {
+                        blogElement.scrollIntoView({ behavior: 'smooth' });
+                    }
+                }
+                
+            } catch (error) {
+                console.error('Error loading blogs:', error);
+                document.getElementById('blogPosts').innerHTML = 
+                    `<div class="no-blogs">Error loading blogs: ${error.message}</div>`;
+            }
+        }
+        
+        function renderBlogs(blogs) {
+            const blogPostsContainer = document.getElementById('blogPosts');
+            blogPostsContainer.innerHTML = '';
+            
+            if (blogs.length === 0) {
+                blogPostsContainer.innerHTML = '<div class="no-blogs">No blogs posted yet.</div>';
+                return;
+            }
+            
+            blogs.forEach(blog => {
+                const blogPost = document.createElement('div');
+                blogPost.className = 'blog-post';
+                blogPost.id = `blog-${blog.id}`;
+                
+                // Blog header
+                const blogHeader = document.createElement('div');
+                blogHeader.className = 'blog-header';
+                
+                const blogTitle = document.createElement('h2');
+                blogTitle.className = 'blog-title';
+                blogTitle.textContent = blog.title;
+                
+                const blogDate = document.createElement('div');
+                blogDate.className = 'blog-date';
+                
+                // Format date to "May 20, 2025" style
+                const date = new Date(blog.uploaded_at);
+                const options = { year: 'numeric', month: 'long', day: 'numeric' };
+                blogDate.textContent = date.toLocaleDateString('en-US', options);
+                
+                blogHeader.appendChild(blogTitle);
+                blogHeader.appendChild(blogDate);
+                
+                // Blog content
+                const blogContent = document.createElement('div');
+                blogContent.className = 'blog-content';
+                
+                // Image gallery
+                const blogGallery = document.createElement('div');
+                blogGallery.className = 'blog-gallery';
+                
+                const galleryContainer = document.createElement('div');
+                galleryContainer.className = 'gallery-container';
+                galleryContainer.dataset.currentIndex = '0';
+                galleryContainer.dataset.totalImages = blog.images.length.toString();
+                
+                // Add images to gallery
+                blog.images.forEach((image, index) => {
+                    const img = document.createElement('img');
+                    img.src = image.url;
+                    img.alt = `${blog.title} - Image ${index + 1}`;
+                    img.className = 'gallery-image';
+                    galleryContainer.appendChild(img);
+                });
+                
+                // Add navigation arrows if there are multiple images
+                if (blog.images.length > 1) {
+                    const galleryNav = document.createElement('div');
+                    galleryNav.className = 'gallery-nav';
+                    
+                    const prevBtn = document.createElement('button');
+                    prevBtn.innerHTML = '&#10094;';
+                    prevBtn.addEventListener('click', () => navigateGallery(galleryContainer, -1));
+                    prevBtn.disabled = true; // Initially disabled at first image
+                    
+                    const nextBtn = document.createElement('button');
+                    nextBtn.innerHTML = '&#10095;';
+                    nextBtn.addEventListener('click', () => navigateGallery(galleryContainer, 1));
+                    
+                    galleryNav.appendChild(prevBtn);
+                    galleryNav.appendChild(nextBtn);
+                    
+                    // Add indicators
+                    const indicators = document.createElement('div');
+                    indicators.className = 'gallery-indicators';
+                    
+                    for (let i = 0; i < blog.images.length; i++) {
+                        const indicator = document.createElement('div');
+                        indicator.className = i === 0 ? 'indicator active' : 'indicator';
+                        indicator.addEventListener('click', () => navigateGalleryTo(galleryContainer, i));
+                        indicators.appendChild(indicator);
+                    }
+                    
+                    blogGallery.appendChild(galleryContainer);
+                    blogGallery.appendChild(galleryNav);
+                    blogGallery.appendChild(indicators);
+                } else {
+                    blogGallery.appendChild(galleryContainer);
+                }
+                
+                // Caption below image
+                const blogCaption = document.createElement('div');
+                blogCaption.className = 'blog-caption';
+                blogCaption.textContent = blog.caption;
+                
+                // Assemble blog content
+                blogContent.appendChild(blogGallery);
+                blogContent.appendChild(blogCaption);
+                
+                // Assemble blog post
+                blogPost.appendChild(blogHeader);
+                blogPost.appendChild(blogContent);
+                
+                blogPostsContainer.appendChild(blogPost);
+            });
+        }
+        
+        function navigateGallery(galleryContainer, direction) {
+            const currentIndex = parseInt(galleryContainer.dataset.currentIndex);
+            const totalImages = parseInt(galleryContainer.dataset.totalImages);
+            const newIndex = currentIndex + direction;
+            
+            if (newIndex >= 0 && newIndex < totalImages) {
+                galleryContainer.dataset.currentIndex = newIndex.toString();
+                galleryContainer.style.transform = `translateX(-${newIndex * 100}%)`;
+                
+                // Update button states
+                const galleryNav = galleryContainer.nextElementSibling;
+                if (galleryNav && galleryNav.className === 'gallery-nav') {
+                    const [prevBtn, nextBtn] = galleryNav.children;
+                    prevBtn.disabled = newIndex === 0;
+                    nextBtn.disabled = newIndex === totalImages - 1;
+                }
+                
+                // Update indicators
+                const indicators = galleryContainer.parentElement.querySelector('.gallery-indicators');
+                if (indicators) {
+                    Array.from(indicators.children).forEach((indicator, i) => {
+                        indicator.className = i === newIndex ? 'indicator active' : 'indicator';
+                    });
+                }
+            }
+        }
+        
+        function navigateGalleryTo(galleryContainer, index) {
+            const totalImages = parseInt(galleryContainer.dataset.totalImages);
+            
+            if (index >= 0 && index < totalImages) {
+                galleryContainer.dataset.currentIndex = index.toString();
+                galleryContainer.style.transform = `translateX(-${index * 100}%)`;
+                
+                // Update button states
+                const galleryNav = galleryContainer.nextElementSibling;
+                if (galleryNav && galleryNav.className === 'gallery-nav') {
+                    const [prevBtn, nextBtn] = galleryNav.children;
+                    prevBtn.disabled = index === 0;
+                    nextBtn.disabled = index === totalImages - 1;
+                }
+                
+                // Update indicators
+                const indicators = galleryContainer.parentElement.querySelector('.gallery-indicators');
+                if (indicators) {
+                    Array.from(indicators.children).forEach((indicator, i) => {
+                        indicator.className = i === index ? 'indicator active' : 'indicator';
+                    });
+                }
+            }
+        }
+    </script>
+</body>
+</html>

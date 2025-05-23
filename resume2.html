@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dr. A. Joseph Einstein - Resume</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background: linear-gradient(135deg, #f8f9ff 0%, #e8f4fd 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .header {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            margin-bottom: 30px;
+            text-align: center;
+        }
+
+        .go-back-btn {
+            display: inline-block;
+            background: linear-gradient(135deg, #0077b6, #90e0ef);
+            color: white;
+            text-decoration: none;
+            padding: 10px 20px;
+            border-radius: 25px;
+            font-weight: bold;
+            margin-bottom: 20px;
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        .go-back-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+
+        .resume-title {
+            font-size: 1.5rem;
+            color: #0077b6;
+            margin-bottom: 10px;
+        }
+
+        .resume-subtitle {
+            font-size: 0.9rem;
+            color: #666;
+            font-style: italic;
+        }
+
+        .resume-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 20px;
+        }
+
+        .resume-page {
+            background: white;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease;
+        }
+
+        .resume-page:hover {
+            transform: translateY(-5px);
+        }
+
+        .resume-image {
+            width: 100%;
+            height: auto;
+            display: block;
+            min-height: 400px;
+            background: #f8f9fa;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #666;
+            font-size: 1.2rem;
+        }
+
+        .page-label {
+            padding: 15px;
+            text-align: center;
+            background: #f8f9fa;
+            font-weight: bold;
+            color: #0077b6;
+        }
+
+        /* Desktop styles */
+        @media (min-width: 768px) {
+            .resume-grid {
+                grid-template-columns: 1fr 1fr;
+                gap: 30px;
+            }
+            
+            .resume-image {
+                min-height: 500px;
+            }
+            
+            .header {
+                text-align: left;
+            }
+            
+            .go-back-btn {
+                margin-bottom: 0;
+                float: right;
+            }
+        }
+
+        /* Large desktop styles */
+        @media (min-width: 1024px) {
+            .resume-image {
+                min-height: 600px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <a href="index.html" class="go-back-btn">← Go Back</a>
+            <div class="clearfix"></div>
+            <h1 class="resume-title">Dr. A. Joseph Einstein</h1>
+            <p class="resume-subtitle">Consultant Psychologist | Mentor | Corporate Alchemist | Youth Resilience Architect</p>
+        </div>
+
+        <div class="resume-grid">
+            <!-- Page 1 -->
+            <div class="resume-page">
+                <div class="resume-image">
+                    <img src="photos/static/resume2/1.png" alt="Resume Page 1" style="width: 100%; height: 100%; object-fit: contain;" onerror="this.style.display='none'; this.parentElement.innerHTML='Resume Page 1<br><small>Image placeholder - Add your resume image here</small>';">
+                </div>
+                <div class="page-label">Page 1</div>
+            </div>
+
+            <!-- Page 2 -->
+            <div class="resume-page">
+                <div class="resume-image">
+                    <img src="photos/static/resume2/2.png" alt="Resume Page 2" style="width: 100%; height: 100%; object-fit: contain;" onerror="this.style.display='none'; this.parentElement.innerHTML='Resume Page 2<br><small>Image placeholder - Add your resume image here</small>';">
+                </div>
+                <div class="page-label">Page 2</div>
+            </div>
+
+            <!-- Page 3 -->
+            <div class="resume-page">
+                <div class="resume-image">
+                    <img src="photos/static/resume2/3.png" alt="Resume Page 3" style="width: 100%; height: 100%; object-fit: contain;" onerror="this.style.display='none'; this.parentElement.innerHTML='Resume Page 3<br><small>Image placeholder - Add your resume image here</small>';">
+                </div>
+                <div class="page-label">Page 3</div>
+            </div>
+
+            <!-- Page 4 -->
+            <div class="resume-page">
+                <div class="resume-image">
+                    <img src="photos/static/resume2/4.png" alt="Resume Page 4" style="width: 100%; height: 100%; object-fit: contain;" onerror="this.style.display='none'; this.parentElement.innerHTML='Resume Page 4<br><small>Image placeholder - Add your resume image here</small>';">
+                </div>
+                <div class="page-label">Page 4</div>
+            </div>
+        </div>
+    </div>
+
+    <style>
+        .clearfix::after {
+            content: "";
+            display: table;
+            clear: both;
+        }
+    </style>
+</body>
+</html>
