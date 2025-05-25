@@ -1167,7 +1167,7 @@ section {
         text-align: center;
         padding: 50px;
         color: #666;
-        padding-left: 23%;
+        padding-left: 15%;
         font-size: 1.2rem;
         font-weight: bolder;
     }
@@ -2454,4 +2454,8 @@ footer {
 .form {
     justify-content: center;
     align-items: center;
+}
+
+.one {
+    font-weight: bold;
 }

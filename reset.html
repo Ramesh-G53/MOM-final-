@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Admin Login - Masters of Minds</title>
+    <title>Reset Password - Masters of Minds</title>
     <style>
         * {
             margin: 0;
@@ -21,7 +21,7 @@
             padding: 20px;
         }
 
-        .login-container {
+        .reset-container {
             background: white;
             padding: 40px 30px;
             border-radius: 15px;
@@ -64,7 +64,7 @@
             transform: translateY(-2px);
         }
 
-        .login-header {
+        .reset-header {
             text-align: center;
             margin-bottom: 30px;
             padding-top: 20px;
@@ -113,7 +113,7 @@
             box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.1);
         }
 
-        .login-button {
+        .reset-button {
             width: 100%;
             padding: 15px;
             background: linear-gradient(135deg, #007bff 0%, #0056b3 100%);
@@ -127,13 +127,20 @@
             margin-top: 10px;
         }
 
-        .login-button:hover {
+        .reset-button:hover {
             transform: translateY(-2px);
             box-shadow: 0 8px 25px rgba(0, 123, 255, 0.3);
         }
 
-        .login-button:active {
+        .reset-button:active {
             transform: translateY(0);
+        }
+
+        .reset-button:disabled {
+            background: #6c757d;
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
         }
 
         .message {
@@ -158,12 +165,18 @@
             border: 1px solid #a5d6a7;
         }
 
-        .forgot-password {
+        .message.info {
+            background: #e3f2fd;
+            color: #1976d2;
+            border: 1px solid #90caf9;
+        }
+
+        .back-to-login {
             text-align: center;
             margin-top: 20px;
         }
 
-        .forgot-password-link {
+        .back-to-login-link {
             color: #007bff;
             text-decoration: none;
             font-size: 0.9rem;
@@ -171,7 +184,7 @@
             transition: all 0.3s ease;
         }
 
-        .forgot-password-link:hover {
+        .back-to-login-link:hover {
             color: #0056b3;
             text-decoration: underline;
         }
@@ -197,9 +210,33 @@
             100% { transform: rotate(360deg); }
         }
 
+        .password-requirements {
+            margin-top: 10px;
+            padding: 15px;
+            background: #f8f9fa;
+            border-radius: 8px;
+            border-left: 4px solid #007bff;
+        }
+
+        .password-requirements h4 {
+            color: #34495e;
+            font-size: 0.9rem;
+            margin-bottom: 8px;
+        }
+
+        .password-requirements ul {
+            color: #7f8c8d;
+            font-size: 0.8rem;
+            padding-left: 20px;
+        }
+
+        .password-requirements li {
+            margin-bottom: 3px;
+        }
+
         /* Mobile optimizations */
         @media (max-width: 480px) {
-            .login-container {
+            .reset-container {
                 padding: 30px 20px;
                 margin: 10px;
             }
@@ -215,15 +252,15 @@
                 right: 10px;
             }
 
-            .form-input, .login-button {
+            .form-input, .reset-button {
                 padding: 12px;
-                font-size: 16px; /* Prevents zoom on iOS */
+                font-size: 16px;
             }
         }
 
         /* Tablet styles */
         @media (min-width: 768px) {
-            .login-container {
+            .reset-container {
                 padding: 50px 40px;
             }
 
@@ -234,54 +271,63 @@
     </style>
 </head>
 <body>
-    <div class="login-container">
-        <button class="back-button" onclick="window.location.href='index.html'">← Go Back</button>
+    <div class="reset-container">
+        <button class="back-button" onclick="window.location.href='login.html'">← Back to Login</button>
         
-        <div class="login-header">
-            <h1 class="banner-title">Login as Admin</h1>
-            <p class="subtitle">Access your admin dashboard</p>
+        <div class="reset-header">
+            <h1 class="banner-title">Reset Password</h1>
+            <p class="subtitle">Enter your new password</p>
         </div>
 
-        <form id="loginForm">
+        <form id="resetForm">
             <div class="form-group">
-                <label for="email">Email Address</label>
-                <input 
-                    type="email" 
-                    id="email" 
-                    class="form-input" 
-                    placeholder="Enter your email" 
-                    required
-                    autocomplete="email"
-                >
-            </div>
-
-            <div class="form-group">
-                <label for="password">Password</label>
+                <label for="password">New Password</label>
                 <input 
                     type="password" 
                     id="password" 
                     class="form-input" 
-                    placeholder="Enter your password" 
+                    placeholder="Enter new password" 
                     required
-                    autocomplete="current-password"
+                    minlength="6"
                 >
             </div>
 
-            <button type="submit" class="login-button" id="loginBtn">
-                Log In
+            <div class="form-group">
+                <label for="confirmPassword">Confirm New Password</label>
+                <input 
+                    type="password" 
+                    id="confirmPassword" 
+                    class="form-input" 
+                    placeholder="Confirm new password" 
+                    required
+                    minlength="6"
+                >
+            </div>
+
+            <div class="password-requirements">
+                <h4>Password Requirements:</h4>
+                <ul>
+                    <li>At least 6 characters long</li>
+                    <li>Must contain letters and numbers</li>
+                    <li>Special characters are recommended</li>
+                </ul>
+            </div>
+
+            <button type="submit" class="reset-button" id="resetBtn">
+                Update Password
             </button>
 
             <div class="loading" id="loading">
                 <div class="spinner"></div>
-                <p>Signing you in...</p>
+                <p>Updating your password...</p>
             </div>
 
             <div id="message" class="message"></div>
         </form>
 
-        <div class="forgot-password">
-            <a href="#" class="forgot-password-link" onclick="forgotPassword()">
-                Forgot your password?
+        <div class="back-to-login">
+            <a href="login.html" class="back-to-login-link">
+                ← Back to Login
             </a>
         </div>
     </div>
@@ -295,81 +341,44 @@
         const supabaseClient = supabase.createClient(supabaseUrl, supabaseKey);
 
         // DOM Elements
-        const loginForm = document.getElementById('loginForm');
-        const emailInput = document.getElementById('email');
+        const resetForm = document.getElementById('resetForm');
         const passwordInput = document.getElementById('password');
-        const loginBtn = document.getElementById('loginBtn');
+        const confirmPasswordInput = document.getElementById('confirmPassword');
+        const resetBtn = document.getElementById('resetBtn');
         const loading = document.getElementById('loading');
         const messageDiv = document.getElementById('message');
 
-        // Login Function
-        async function login() {
-            const email = emailInput.value.trim();
-            const password = passwordInput.value;
+        // Get URL fragments (hash parameters) to check for session
+        // Supabase sends tokens as URL fragments, not query parameters
+        const hashParams = new URLSearchParams(window.location.hash.substring(1));
+        const accessToken = hashParams.get('access_token');
+        const refreshToken = hashParams.get('refresh_token');
+        const type = hashParams.get('type');
 
-            // Basic validation
-            if (!email || !password) {
+        // Check if we have the required tokens and correct type
+        if (!accessToken || type !== 'recovery') {
+            showMessage('Invalid or expired reset link. Please request a new password reset.', 'error');
+            resetBtn.disabled = true;
+        }
+
+        // Reset Password Function
+        async function resetPassword() {
+            const password = passwordInput.value;
+            const confirmPassword = confirmPasswordInput.value;
+
+            // Validation
+            if (!password || !confirmPassword) {
                 showMessage('Please fill in all fields.', 'error');
                 return;
             }
 
-            // Show loading state
-            showLoading(true);
-            clearMessage();
-
-            try {
-                // Authenticate with Supabase
-                const { data, error } = await supabaseClient.auth.signInWithPassword({
-                    email: email,
-                    password: password,
-                });
-
-                if (error) throw error;
-
-                // Login successful
-                showMessage('Login successful! Redirecting...', 'success');
-                
-                // Redirect after a short delay
-                setTimeout(() => {
-                    window.location.href = "admin.html";
-                }, 1000);
-
-            } catch (error) {
-                // Login failed
-                showLoading(false);
-                
-                let errorMessage = 'Login failed. Please try again.';
-                
-                switch(error.message) {
-                    case 'Invalid login credentials':
-                        errorMessage = 'Invalid email or password.';
-                        break;
-                    case 'Email not confirmed':
-                        errorMessage = 'Please confirm your email address.';
-                        break;
-                    case 'Too many requests':
-                        errorMessage = 'Too many failed attempts. Please try again later.';
-                        break;
-                    default:
-                        if (error.message.includes('rate limit')) {
-                            errorMessage = 'Too many attempts. Please wait before trying again.';
-                        } else if (error.message.includes('email')) {
-                            errorMessage = 'Invalid email address format.';
-                        }
-                        break;
-                }
-                
-                showMessage(errorMessage, 'error');
+            if (password !== confirmPassword) {
+                showMessage('Passwords do not match.', 'error');
+                return;
             }
-        }
 
-        // Forgot Password Function
-        async function forgotPassword() {
-            const email = emailInput.value.trim();
-
-            if (!email) {
-                showMessage('Please enter your email address first.', 'error');
-                emailInput.focus();
+            if (password.length < 6) {
+                showMessage('Password must be at least 6 characters long.', 'error');
                 return;
             }
 
@@ -378,26 +387,54 @@
             clearMessage();
 
             try {
-                const { error } = await supabaseClient.auth.resetPasswordForEmail(email, {
-                    redirectTo: window.location.origin + '/reset.html',
+                // Set the session using the tokens from URL
+                if (accessToken && refreshToken) {
+                    await supabaseClient.auth.setSession({
+                        access_token: accessToken,
+                        refresh_token: refreshToken
+                    });
+                }
+
+                // Update the password
+                const { error } = await supabaseClient.auth.updateUser({
+                    password: password
                 });
 
                 if (error) throw error;
 
+                // Success
                 showLoading(false);
-                showMessage('Password reset email sent! Check your inbox.', 'success');
+                showMessage('Password updated successfully! Redirecting to login...', 'success');
+                
+                // Sign out the user and redirect to login after a delay
+                setTimeout(async () => {
+                    await supabaseClient.auth.signOut();
+                    window.location.href = 'login.html';
+                }, 2000);
 
             } catch (error) {
                 showLoading(false);
                 
-                let errorMessage = 'Failed to send reset email.';
+                let errorMessage = 'Failed to update password. Please try again.';
                 
-                if (error.message.includes('rate limit')) {
-                    errorMessage = 'Too many requests. Please wait before trying again.';
-                } else if (error.message.includes('not found')) {
-                    errorMessage = 'No account found with this email address.';
-                } else if (error.message.includes('email')) {
-                    errorMessage = 'Invalid email address format.';
+                switch(error.message) {
+                    case 'New password should be different from the old password.':
+                        errorMessage = 'New password must be different from your current password.';
+                        break;
+                    case 'Password should be at least 6 characters.':
+                        errorMessage = 'Password must be at least 6 characters long.';
+                        break;
+                    case 'Invalid session':
+                    case 'No session found':
+                        errorMessage = 'Reset link expired. Please request a new password reset.';
+                        resetBtn.disabled = true;
+                        break;
+                    default:
+                        if (error.message.includes('session')) {
+                            errorMessage = 'Reset session expired. Please request a new password reset.';
+                            resetBtn.disabled = true;
+                        }
+                        break;
                 }
                 
                 showMessage(errorMessage, 'error');
@@ -420,52 +457,60 @@
         function showLoading(show) {
             if (show) {
                 loading.style.display = 'block';
-                loginBtn.style.display = 'none';
+                resetBtn.style.display = 'none';
             } else {
                 loading.style.display = 'none';
-                loginBtn.style.display = 'block';
+                resetBtn.style.display = 'block';
             }
         }
 
         // Event Listeners
-        loginForm.addEventListener('submit', function(e) {
+        resetForm.addEventListener('submit', function(e) {
             e.preventDefault();
-            login();
+            resetPassword();
+        });
+
+        // Real-time password confirmation validation
+        confirmPasswordInput.addEventListener('input', function() {
+            const password = passwordInput.value;
+            const confirmPassword = confirmPasswordInput.value;
+            
+            if (confirmPassword && password !== confirmPassword) {
+                confirmPasswordInput.style.borderColor = '#e74c3c';
+                showMessage('Passwords do not match', 'error');
+            } else if (confirmPassword && password === confirmPassword) {
+                confirmPasswordInput.style.borderColor = '#27ae60';
+                clearMessage();
+            } else {
+                confirmPasswordInput.style.borderColor = '#e1e8ed';
+                clearMessage();
+            }
         });
 
         // Enter key support
-        emailInput.addEventListener('keypress', function(e) {
-            if (e.key === 'Enter') {
-                passwordInput.focus();
-            }
-        });
-
         passwordInput.addEventListener('keypress', function(e) {
             if (e.key === 'Enter') {
-                login();
+                confirmPasswordInput.focus();
             }
         });
 
-        // Check if user is already logged in
-        async function checkAuthState() {
-            try {
-                const { data: { user }, error } = await supabaseClient.auth.getUser();
-                
-                if (error) throw error;
-                
-                if (user) {
-                    // User is signed in, redirect to admin
-                    window.location.href = "admin.html";
-                }
-            } catch (error) {
-                // User is not authenticated, stay on login page
-                console.log('User not authenticated');
+        confirmPasswordInput.addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                resetPassword();
             }
-        }
+        });
 
-        // Initialize auth check on page load
+        // Initialize page
         document.addEventListener('DOMContentLoaded', function() {
-            checkAuthState();
+            // Debug: Log the current URL and tokens
+            console.log('Current URL:', window.location.href);
+            console.log('Hash:', window.location.hash);
+            console.log('Access Token:', accessToken ? 'Found' : 'Not found');
+            console.log('Type:', type);
+            
+            if (accessToken && type === 'recovery') {
+                showMessage('Ready to set your new password.', 'info');
+            }
         });
     </script>
 </body>
