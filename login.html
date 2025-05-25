@@ -379,7 +379,7 @@
 
             try {
                 const { error } = await supabaseClient.auth.resetPasswordForEmail(email, {
-                    redirectTo: window.location.origin + '/reset.html',
+                    redirectTo: 'https://ramesh-g53.github.io/MOM-final-/reset.html',
                 });
 
                 if (error) throw error;
