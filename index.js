@@ -978,7 +978,7 @@ const events_supabaseKey = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXB
 const events_supabaseClient = supabase.createClient(events_supabaseUrl, events_supabaseKey);
 
 // WhatsApp contact number (replace with your actual number)
-const events_whatsappNumber = "9884127938"; // Replace with your actual WhatsApp number
+const events_whatsappNumber = "+918056661304"; // Replace with your actual WhatsApp number
 
 // Variables for slideshow
 let events_currentIndex = 0;
